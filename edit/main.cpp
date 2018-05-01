@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "syntax-highlighter.h"
+
 #include <QApplication>
 #include <QString>
 #include <QCommandLineParser>
@@ -25,6 +27,10 @@ int main(int argc, char *argv[])
     parser.process(application);
 
     MainWindow mainWindow;
+
+    if (!parser.positionalArguments().isEmpty()) {
+        mainWindow.loadFile(parser.positionalArguments().first());
+    }
 
     mainWindow.show();
     return application.exec();

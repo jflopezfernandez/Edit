@@ -1,14 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QFont>
+#include <QFile>
+#include <QFileInfo>
 #include <QtWidgets>
 #include <QMainWindow>
 #include <QMessageBox>
-#include <QPlainTextEdit>
-
-// Unused
-#include <QPlainTextDocumentLayout>
+#include <QTextEdit>
 #include <QTextDocument>
+
+#include "syntax-highlighter.h"
 
 namespace UI {
     class MainWindow;
@@ -20,7 +22,12 @@ class MainWindow : public QMainWindow
 
     QString currentFile;
 
-    QPlainTextEdit *textEdit;
+    QTextEdit *textEdit;
+
+    Highlighter *highlighter;
+
+    // TODO: Document function
+    void setupEditor();
 
     // TODO: Document function
     void createActions();

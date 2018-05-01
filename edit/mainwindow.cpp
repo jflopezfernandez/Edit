@@ -1,8 +1,18 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "syntax-highlighter.h"
 
 // ----------------------------------- Private --------------------------------
+
+void MainWindow::setupEditor() {
+    QFont editorFont;
+    editorFont.setFamily("Courier");
+    editorFont.setFixedPitch(true);
+    editorFont.setPointSize(10);
+
+    highlighter = new Highlighter(textEdit->document());
+}
 
 void MainWindow::createActions() {
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
@@ -44,7 +54,7 @@ void MainWindow::createActions() {
     const QIcon exitApplicationIcon = QIcon::fromTheme("application-exit", QIcon("C:/Users/jflop/Downloads/exit.png"));
 
     QAction *actionExitApplication = new QAction(exitApplicationIcon, tr("&Exit"), this);
-    actionExitApplication->setShortcuts(QKeySequence::Quit);
+    actionExitApplication->setShortcut(QKeySequence(tr("Ctrl+Q")));
     actionExitApplication->setToolTip(tr("Exit application."));
 
     connect(actionExitApplication, &QAction::triggered, this, &MainWindow::close);
@@ -158,7 +168,7 @@ QString MainWindow::strippedName(const QString& fullFilename) {
 // ----------------------------------- Public ---------------------------------
 
 MainWindow::MainWindow()
-    : textEdit(new QPlainTextEdit)
+    : textEdit(new QTextEdit)
 {
     setCentralWidget(textEdit);
 
@@ -168,6 +178,8 @@ MainWindow::MainWindow()
     readSettings();
 
     connect(textEdit->document(), &QTextDocument::contentsChanged, this, &MainWindow::documentWasModified);
+
+    setupEditor();
 
     setCurrentFile(QString());
 }
